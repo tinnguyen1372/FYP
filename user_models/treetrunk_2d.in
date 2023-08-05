@@ -1,0 +1,31 @@
+#title: Healthy TreeTrunk
+#domain: 1.46 1.2 0.002
+#dx_dy_dz: 0.002 0.002 0.002
+#time_window: 25e-9
+
+#material: 5.22 0.005 1 0 Heartwood
+#material: 5.9 0.02 1 0 Inner_Sapwood
+#material: 6.1 0.033 1 0 Outer_Sapwood
+#material: 6.0 1 1 0 Cabdium
+#material: 5.8 0 1 0 Bark
+
+#python:
+print("#waveform: ricker 1 1e9 my_wave")
+print("#cylinder: 0.73 0.53 0 0.73 0.53 0.002 0.25 Bark")
+# print("#cylinder: 0.73 0.53 0 0.73 0.53 0.002 0.12 Cabdium")
+# print("#cylinder: 0.73 0.53 0 0.73 0.53 0.002 0.20 Outer_Sapwood")
+# print("#cylinder: 0.73 0.53 0 0.73 0.53 0.002 0.0 Inner_Sapwood")
+print("#cylinder: 0.68 0.53 0 0.68 0.53 0.002 0.12 Heartwood")
+
+# Material
+print("material: 1 0 1 0 cavity")
+
+# Cylinder
+# print("cylinder: 0.75 0.6 0 0.75 0.6 0.002 0.08 cavity")
+
+# Geometry objects write
+# print("geometry_objects_write: 0.03 0.03 0 1.46 1.2 0.002 treetrunk_2d")
+
+#end_python:
+#hertzian_dipole: z 0.98 0.5300000000000005 0 my_wave 
+#rx: 0.964923155196477 0.6155050358314176 0 

@@ -1,0 +1,18 @@
+#title: TreeTrunk with cavity
+#domain: 0.65 0.45 0.002
+#dx_dy_dz: 0.002 0.002 0.002
+#time_window: 2e-8
+
+#material: 1 0 1 0 cavity
+
+#waveform: ricker 1 1e9 my_ricker
+#hertzian_dipole: z 0.025 0.025 0 my_ricker
+#rx: 0.125 0.025 0
+#src_steps: 0.005 0 0
+#rx_steps: 0.005 0 0
+
+#geometry_objects_read: 0.175 0.125 0 geometry.h5 geometry_materials.txt
+
+#cylinder: 0.325 0.275 0 0.325 0.275 0.002 0.05 cavity
+
+#geometry_objects_write: 0 0 0 0.65 0.45 0.002 treetrunk
