@@ -85,8 +85,8 @@ class Cir_Adaptor():
     def run_healthy(self,iteration):
         # logging.debug(self.data['r_trunk_L1'][iteration][0])
         # self.distance = self.data['r_Bcavity'][iteration][0]
-        self.cradius = self.data['radius'][iteration]
-        eps_trunk = self.data['eps_trunk'][iteration]
+        self.cradius = self.data['r_trunk_L1'][iteration][0]
+        # eps_trunk = self.data['eps_trunk'][iteration]
         # logging.info(self.cradius)
         # self.rcavity = self.data['R_center_Bcavity'][iteration] 
         # self.cx, self.cy, self.cz = (self.data['CenTrunk_X'],self.data['CenTrunk_Y'],0)
@@ -116,7 +116,7 @@ class Cir_Adaptor():
         src_position = [self.cradius + pml + x_gap - src_to_rx/2, pml + src_to_pml, z]
         rx_position = [src_position[0] + src_to_rx, src_position[1], z]
         with open('{}materials.txt'.format(self.prefix), "w") as file:
-            file.write('#material: {} 0 1 0 trunk\n'.format(eps_trunk))
+            # file.write('#material: {} 0 1 0 trunk\n'.format(eps_trunk))
             file.write('#material: 1 0 1 0 cavity')
         logging.debug('_ iteration {} _'.format(iteration))
         for i in range(self.bscan_num):
@@ -208,8 +208,8 @@ Geometry objects read
     def run_cavity(self,iteration):   
         # logging.debug(self.data['r_trunk_L1'][iteration][0])
         # self.distance = self.data['r_Bcavity'][iteration][0]
-        self.cradius = self.data['radius'][iteration]
-        eps_trunk = self.data['eps_trunk'][iteration]
+        self.cradius = self.data['r_trunk_L1'][iteration][0]
+        # eps_trunk = self.data['eps_trunk'][iteration]
         # logging.info(self.cradius)
         # self.rcavity = self.data['R_center_Bcavity'][iteration] 
         # self.cx, self.cy, self.cz = (self.data['CenTrunk_X'],self.data['CenTrunk_Y'],0)
@@ -239,7 +239,7 @@ Geometry objects read
         src_position = [self.cradius + pml + x_gap - src_to_rx/2, pml + src_to_pml, z]
         rx_position = [src_position[0] + src_to_rx, src_position[1], z]
         with open('{}materials.txt'.format(self.prefix), "w") as file:
-            file.write('#material: {} 0 1 0 trunk\n'.format(eps_trunk))
+            # file.write('#material: {} 0 1 0 trunk\n'.format(eps_trunk))
             file.write('#material: 1 0 1 0 cavity')
         logging.debug('_ iteration {} _'.format(iteration))
 
