@@ -136,7 +136,7 @@ def EnclosedCurve(r_random, N_angle, H, Center_X, Center_Y):
     
     return x, y, r
 
-def preprocess(image_path, res, prefix, iteration, angle=0):
+def preprocess(image_path, res, prefix,iteration, angle=0):
     res = int(res)
     img = Image.open(image_path).convert('RGBA')  # Convert the image to RGBA mode
 
@@ -147,7 +147,7 @@ def preprocess(image_path, res, prefix, iteration, angle=0):
     img_transparent = Image.fromarray(img_array, 'RGBA')
 
     # Rotate the image by the specified angle
-    img_rotated = img_transparent.rotate(angle, resample=Image.BICUBIC, expand=True)
+    img_rotated = img_transparent.rotate(angle, resample=Image.BICUBIC, expand=False)
 
     # Create a new white image with transparency (alpha channel)
     img_white_background = Image.new("RGBA", img_rotated.size, (255, 255, 255, 255))
@@ -157,11 +157,13 @@ def preprocess(image_path, res, prefix, iteration, angle=0):
 
     # Save the rotated and preprocessed image with a "_processed" suffix
     processed_image_path = image_path.replace(".png", "_{}_processed.png".format(angle))
-    img_with_background.save(processed_image_path)
 
     # Resize the rotated and preprocessed image to the desired resolution
     img_with_background = img_with_background.convert('RGB')
     img_resized = img_with_background.resize((res, res))
+    img_resized.save(processed_image_path)
+
+    print(img.size,img_transparent,img_rotated,img_with_background,img_resized)
 
     # Convert the resized image to a 2D array of integers
     color_map = {
@@ -190,6 +192,7 @@ def preprocess(image_path, res, prefix, iteration, angle=0):
     with h5py.File(filename, 'w') as file:
         dset = file.create_dataset("data", data=arr_3d)
         file.attrs['dx_dy_dz'] = (0.002, 0.002, 0.002)
+
 
 def increment_file_index(string):
         result = ""

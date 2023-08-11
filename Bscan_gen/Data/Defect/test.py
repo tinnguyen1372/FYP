@@ -15,7 +15,7 @@ def preprocess(image_path, res, prefix, angle=0):
     img_transparent = Image.fromarray(img_array, 'RGBA')
 
     # Rotate the image by the specified angle
-    img_rotated = img_transparent.rotate(angle, resample=Image.BICUBIC, expand=True)
+    img_rotated = img_transparent.rotate(angle, resample=Image.BICUBIC, expand=False)
 
     # Create a new white image with transparency (alpha channel)
     img_white_background = Image.new("RGBA", img_rotated.size, (255, 255, 255, 255))
@@ -24,17 +24,20 @@ def preprocess(image_path, res, prefix, angle=0):
     img_with_background = Image.alpha_composite(img_white_background, img_rotated)
 
     # Save the rotated and preprocessed image with a "_processed" suffix
-    processed_image_path = image_path.replace(".png", "_processed.png")
-    img_with_background.save(processed_image_path)
+    processed_image_path = image_path.replace(".png", "_{}_processed.png".format(angle))
 
     # Resize the rotated and preprocessed image to the desired resolution
+    img_with_background = img_with_background.convert('RGB')
     img_resized = img_with_background.resize((res, res))
+    img_resized.save(processed_image_path)
+
+    print(img.size,img_transparent,img_rotated,img_with_background,img_resized)
 
     # Convert the resized image to a 2D array of integers
     color_map = {
-        (255, 255, 255, 0): -1,  # White (transparent)
-        (255, 255, 0, 255): 0,   # Yellow
-        (255, 51, 0, 255): 1     # Red
+        (255, 255, 255): -1,  # White (transparent)
+        (255, 255, 0): 0,   # Yellow
+        (255, 51, 0): 1     # Red
     }
 
     arr_2d = np.zeros((res, res), dtype=int)
@@ -49,19 +52,21 @@ def preprocess(image_path, res, prefix, angle=0):
     # Add the angle to the file name
     base_filename = ""
     if "healthy" in image_path:
-        base_filename = os.getcwd() + '/' + prefix + 'healthy_angle_{}.h5'.format(angle)
+        base_filename = os.getcwd() + '/' + prefix + 'healthy.h5'
     else:
-        base_filename = os.getcwd() + '/' + prefix + 'cavity_angle_{}.h5'.format(angle)
+        base_filename = os.getcwd() + '/' + prefix + 'cavity.h5'
 
     filename = base_filename
     with h5py.File(filename, 'w') as file:
         dset = file.create_dataset("data", data=arr_3d)
         file.attrs['dx_dy_dz'] = (0.002, 0.002, 0.002)
-        
-# Example usage:
-image_path = "./defect0.png"
-resolution = 200
-prefix = "defect0_"
-angle = 20  # Set the desired angle for augmentation
 
-preprocess(image_path, resolution, prefix, angle)
+# Example usage:
+
+angle = 20  # Set the desired angle for augmentation
+for image in range(9):
+    for i in range(36):
+        image_path = "defect{}.png".format(image)
+        resolution = 200
+        prefix = "defect0_"
+        preprocess(image_path, resolution, prefix, angle=i*10)

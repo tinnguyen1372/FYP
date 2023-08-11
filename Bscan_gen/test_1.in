@@ -1,0 +1,21 @@
+
+#title: Defect TreeTrunk
+
+Configuration
+#domain: 0.560 0.680 0.002
+#dx_dy_dz: 0.002 0.002 0.002
+#time_window: 3e-08
+
+#pml_cells: 20 20 0 20 20 0
+
+
+Source - Receiver - Waveform
+#waveform: ricker 1 1e9 my_wave
+#hertzian_dipole: z 0.240 0.060 0.000 my_wave 
+#rx: 0.340 0.060 0.000
+
+Geometry objects read
+
+#geometry_objects_read: 0.060 0.160 0.000 test_cavity.h5 test_materials.txt
+
+    
