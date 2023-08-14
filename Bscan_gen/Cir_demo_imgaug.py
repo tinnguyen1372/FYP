@@ -292,12 +292,12 @@ Geometry objects read
         with h5py.File('cir_src_only.out', 'r') as f1:
             data_source = f1['rxs']['rx1']['Ez'][()]
 
-        # src = data_source
-        # src = src[:, np.newaxis]
-        # Ez0 = np.repeat(src, self.bscan_num, axis=1)
-        # self.merged_data_cavity = np.subtract(data1, Ez0)
+        src = data_source
+        src = src[:, np.newaxis]
+        Ez0 = np.repeat(src, self.bscan_num, axis=1)
+        self.merged_data_cavity = np.subtract(data1, Ez0)
 
-        self.merged_data_cavity = np.subtract(data1, data_source)
+        # self.merged_data_cavity = np.subtract(data1, data_source)
         # Create a new output file and write the merged data
         with h5py.File(output_filename, 'w') as f_out:
             f_out.attrs['dt'] = dt  # Set the time step attribute
