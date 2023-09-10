@@ -32,7 +32,7 @@ def generate_next_step_in_circular_path(x, y, z, cx, cy, cz, radius, num_steps):
     dx = x - cx
     dy = y - cy
     current_angle = math.atan2(dy, dx)
-    angle_increment = 2 * math.pi / num_steps
+    angle_increment = -2 * math.pi / num_steps
     new_angle = current_angle + angle_increment
     x_new = cx + radius * math.cos(new_angle)
     y_new = cy + radius * math.sin(new_angle)
@@ -161,7 +161,7 @@ def preprocess(image_path, res, prefix,iteration, angle=0):
     # Resize the rotated and preprocessed image to the desired resolution
     img_with_background = img_with_background.convert('RGB')
     img_resized = img_with_background.resize((res, res))
-    img_resized.save(processed_image_path)
+    # img_resized.save(processed_image_path)
 
     print(img.size,img_transparent,img_rotated,img_with_background,img_resized)
 
@@ -254,3 +254,88 @@ def t_preprocess(image_path, res, prefix, iteration, angle=0):
     with h5py.File(filename, 'w') as file:
         dset = file.create_dataset("data", data=arr_3d)
         file.attrs['dx_dy_dz'] = (0.002, 0.002, 0.002)
+
+
+import numpy as np
+
+def find_most_similar_color(pixel_color, color_map, threshold):
+    closest_color = None
+    min_distance = float('inf')
+
+    for color, value in color_map.items():
+        distance = np.linalg.norm(np.array(pixel_color) - np.array(color))
+        if distance < min_distance and distance <= threshold:
+            closest_color = color
+            min_distance = distance
+
+    if closest_color is not None:
+        return color_map[closest_color]
+    else:
+        return 0  # Default value when no similar color is found
+
+
+def preprocess_multilayers(image_path, res, prefix,iteration, angle=0):
+    res = int(res)
+    img = Image.open(image_path).convert('RGBA')  # Convert the image to RGBA mode
+
+    # Remove the white background and replace with transparency (alpha channel)
+    threshold = 240
+    img_array = np.array(img)
+    img_array[(img_array[:, :, :3] > threshold).all(axis=-1)] = [255, 255, 255, 0]
+    img_transparent = Image.fromarray(img_array, 'RGBA')
+
+    # Rotate the image by the specified angle
+    img_rotated = img_transparent.rotate(angle, resample=Image.BICUBIC, expand=False)
+
+    # Create a new white image with transparency (alpha channel)
+    img_white_background = Image.new("RGBA", img_rotated.size, (255, 255, 255, 255))
+
+    # Paste the rotated content onto the white background
+    img_with_background = Image.alpha_composite(img_white_background, img_rotated)
+
+    # Save the rotated and preprocessed image with a "_processed" suffix
+    processed_image_path = image_path.replace(".png", "_{}_processed.png".format(angle))
+
+    # Resize the rotated and preprocessed image to the desired resolution
+    img_with_background = img_with_background.convert('RGB')
+    img_resized = img_with_background.resize((res, res))
+    # img_resized.save(processed_image_path)
+
+    # print(img.size,img_transparent,img_rotated,img_with_background,img_resized)
+
+    # Convert the resized image to a 2D array of integers
+    color_map = {
+        (255, 255, 255): -1,  # White (transparent)
+        (255, 255, 0): 0,   # Yellow
+        (255, 204, 0): 1,    # Light Orange
+        (255, 153, 0): 2,   # Orange
+        (255, 102, 0): 3,   # HW
+        (255, 51, 0): 4,    # Red
+    }
+
+    # Define the threshold
+    threshold = 40  # Adjust this threshold value as needed
+
+    arr_2d = np.zeros((res, res), dtype=int)
+    for y in range(res):
+        for x in range(res):
+            pixel_color = img_resized.getpixel((x, y))
+            arr_2d[y, x] = find_most_similar_color(pixel_color, color_map, threshold)
+            # if(not arr_2d[y,x] == -1):
+            #     print("{}".format(str(find_most_similar_color(pixel_color, color_map, threshold))))
+
+    # Expand dimensions
+    arr_3d = np.expand_dims(arr_2d, axis=2)
+
+    # Add the angle to the file name
+    base_filename = ""
+    if "healthy" in image_path:
+        base_filename = os.getcwd() + '/' + prefix + 'healthy.h5'
+    else:
+        base_filename = os.getcwd() + '/' + prefix + 'cavity.h5'
+
+    filename = base_filename
+    with h5py.File(filename, 'w') as file:
+        dset = file.create_dataset("data", data=arr_3d)
+        file.attrs['dx_dy_dz'] = (0.002, 0.002, 0.002)
+

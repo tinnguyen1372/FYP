@@ -85,7 +85,7 @@ class Cir_Adaptor():
     def run_healthy(self,iteration):
         # logging.debug(self.data['r_trunk_L1'][iteration][0])
         # self.distance = self.data['r_Bcavity'][iteration][0]
-        self.cradius = self.data['radius'][iteration]
+        self.cradius = self.data['r_trunk_L1'][iteration][0]
         eps_trunk = self.data['eps_trunk'][iteration]
         # logging.info(self.cradius)
         # self.rcavity = self.data['R_center_Bcavity'][iteration] 
@@ -208,7 +208,7 @@ Geometry objects read
     def run_cavity(self,iteration):   
         # logging.debug(self.data['r_trunk_L1'][iteration][0])
         # self.distance = self.data['r_Bcavity'][iteration][0]
-        self.cradius = self.data['radius'][iteration]
+        self.cradius = self.data['r_trunk_L1'][iteration][0]
         eps_trunk = self.data['eps_trunk'][iteration]
         # logging.info(self.cradius)
         # self.rcavity = self.data['R_center_Bcavity'][iteration] 
@@ -223,8 +223,8 @@ Geometry objects read
         pml = resolution * pml_cells
         x_gap = 0.02
         y_gap = 0.02
-        src_to_pml = 0.02
-        src_to_trunk = 0.1
+        src_to_pml = 0.02 #0.02
+        src_to_trunk = 0.1 #0.1
         sharp_domain = diameter , diameter + src_to_trunk
         z = 0
         domain = [
@@ -279,7 +279,7 @@ Geometry objects read
                 geometry_only=False,
                 geometry_fixed=False)
             os.rename(f"{filename_g.replace('.in','')}" + ".out", f"{filename_g.replace('.in','')}" + f"{i+1}.out")
-        merge_files(str(filename_g.replace('.in','')), True)
+        merge_files(str(filename_g.replace('.in','')), False)
         output_file =str(filename_g.replace('./','').replace('.in',''))+ '_merged.out'
 
         output_filename = self.prefix + 'bscan_cavity.out'
@@ -297,7 +297,6 @@ Geometry objects read
         Ez0 = np.repeat(src, self.bscan_num, axis=1)
         self.merged_data_cavity = np.subtract(data1, Ez0)
 
-        # self.merged_data_cavity = np.subtract(data1, data_source)
         # Create a new output file and write the merged data
         with h5py.File(output_filename, 'w') as f_out:
             f_out.attrs['dt'] = dt  # Set the time step attribute

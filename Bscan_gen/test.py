@@ -10,7 +10,10 @@ print("Keys in the NPZ file:", data.keys())
 for key in data.keys():
     print(f"\nData for key '{key}':")
     try:
-        print(len(data[key]))
-    except:
         print(data[key])
+    except:
+        pass
 
+import cirultils as cu
+for i in range(36):
+    cu.preprocess_multilayers("./Data/Defect/defect0"+ ".png", 200,"test_", i, angle = i*int(360/36))
