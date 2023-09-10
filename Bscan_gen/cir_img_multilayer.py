@@ -156,7 +156,7 @@ Geometry objects read
             filename_g = self.input.replace('./','')
             #filename = FYP_1.in
             api(filename_g, 
-                # gpu= [0],
+                gpu= [0],
                 n= 1,
                 geometry_only=False,
                 geometry_fixed=False)
@@ -290,7 +290,7 @@ Geometry objects read
                 file.close()
             filename_g = self.input.replace('./','')
             api(filename_g, 
-                # gpu= [0],
+                gpu= [0],
                 n= 1,
                 geometry_only=False,
                 geometry_fixed=False)
