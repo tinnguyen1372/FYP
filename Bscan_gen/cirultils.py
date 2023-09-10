@@ -260,18 +260,19 @@ import numpy as np
 
 def find_most_similar_color(pixel_color, color_map, threshold):
     closest_color = None
-    min_distance = float('inf')
 
     for color, value in color_map.items():
         distance = np.linalg.norm(np.array(pixel_color) - np.array(color))
-        if distance < min_distance and distance <= threshold:
+        # if distance < 100 and distance>0 and (color == (255,102,0) or color == (255, 153, 0)):
+        #     print(distance)
+        #     print(color)
+        # print(min_distance)
+        if distance < threshold:
             closest_color = color
-            min_distance = distance
-
     if closest_color is not None:
         return color_map[closest_color]
     else:
-        return 0  # Default value when no similar color is found
+        return 0  # Return None when no similar color is found
 
 
 def preprocess_multilayers(image_path, res, prefix,iteration, angle=0):
@@ -314,7 +315,7 @@ def preprocess_multilayers(image_path, res, prefix,iteration, angle=0):
     }
 
     # Define the threshold
-    threshold = 40  # Adjust this threshold value as needed
+    threshold = 30  # Adjust this threshold value as needed
 
     arr_2d = np.zeros((res, res), dtype=int)
     for y in range(res):

@@ -1,0 +1,5 @@
+#material: 6.7 0 1 0 bark
+#material: 10.4 0 1 0 cambium
+#material: 14.0 0 1 0 sapwood
+#material: 6.2 0 1 0 heartwood
+#material: 1 0 1 0 cavity

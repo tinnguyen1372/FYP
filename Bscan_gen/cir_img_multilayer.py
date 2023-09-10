@@ -156,7 +156,7 @@ Geometry objects read
             filename_g = self.input.replace('./','')
             #filename = FYP_1.in
             api(filename_g, 
-                # gpu= [0],
+                gpu= [0],
                 n= 1,
                 geometry_only=False,
                 geometry_fixed=False)
@@ -290,12 +290,12 @@ Geometry objects read
                 file.close()
             filename_g = self.input.replace('./','')
             api(filename_g, 
-                # gpu= [0],
+                gpu= [0],
                 n= 1,
                 geometry_only=False,
                 geometry_fixed=False)
             os.rename(f"{filename_g.replace('.in','')}" + ".out", f"{filename_g.replace('.in','')}" + f"{i+1}.out")
-        merge_files(str(filename_g.replace('.in','')), False)
+        merge_files(str(filename_g.replace('.in','')), True)
         output_file =str(filename_g.replace('./','').replace('.in',''))+ '_merged.out'
 
         output_filename = self.prefix + 'bscan_cavity.out'

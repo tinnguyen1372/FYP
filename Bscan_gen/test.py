@@ -15,5 +15,6 @@ for key in data.keys():
         pass
 
 import cirultils as cu
-for i in range(36):
-    cu.preprocess_multilayers("./Data/Defect/defect0"+ ".png", 200,"test_", i, angle = i*int(360/36))
+# for i in range(36):
+i=0
+cu.preprocess_multilayers("./Data/Defect/defect1"+ ".png", 200,"test_", i, angle = i*int(360/36))

@@ -248,7 +248,8 @@ if __name__ == '__main__':
     parser.add_argument('--trunk', type=int, help='Number of trunk')
     args = parser.parse_args()
 
-    trunk_count = args.trunk if args.trunk is not None else 10
+    trunk_count = args.trunk if args.trunk is not None else 12
+
     filename = 'SL_trunk.npz'
 
     generate_and_save_data(trunk_count, filename)
