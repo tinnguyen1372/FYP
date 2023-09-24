@@ -203,7 +203,9 @@ Geometry objects read
         fig, ax = plt.subplots(figsize=(fig_width, fig_height))
 
         plt.imshow(self.merged_data_healthy, cmap='gray', aspect='auto')
-        plt.axis('off')
+        # plt.axis('off')
+        plt.xlabel('Trace number')
+        plt.ylabel('Time [s]')
         ax.margins(0, 0)  # Remove any extra margins or padding
         fig.tight_layout(pad=0)  # Remove any extra padding
 
@@ -331,7 +333,9 @@ Geometry objects read
         fig, ax = plt.subplots(figsize=(fig_width, fig_height))
 
         plt.imshow(self.merged_data_cavity, cmap='gray', aspect='auto')
-        plt.axis('off')
+        # plt.axis('off')
+        plt.xlabel('Trace number')
+        plt.ylabel('Time [s]')
         ax.margins(0, 0)  # Remove any extra margins or padding
         fig.tight_layout(pad=0)  # Remove any extra padding
 

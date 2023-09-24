@@ -47,6 +47,19 @@ def save_image( filename, x_trunk_L1, y_trunk_L1, x_trunk_L2, y_trunk_L2, x_trun
     plt.savefig(filename, format='png', dpi=300, bbox_inches='tight')
     plt.close()
 
+def save_image_output( filename, x_trunk_L1, y_trunk_L1, x_trunk_L2, y_trunk_L2, x_trunk_L3, y_trunk_L3,
+                x_Bcavity, y_Bcavity, layer1, layer2, layer3, layer4, cavity_colour):
+    plt.figure(figsize=(10, 10))
+    plt.fill(x_trunk_L1, y_trunk_L1, color=layer1, linestyle='none')
+    # plt.fill(x_trunk_L5, y_trunk_L5, color=layer5, linestyle='none')
+    plt.fill(x_Bcavity, y_Bcavity, color=cavity_colour, linestyle='none')
+    plt.xlabel('x(t)')
+    plt.ylabel('y(t)')
+    plt.axis([-0.35, 0.35, -0.35, 0.35])
+    plt.axis('off')
+    plt.savefig(filename, format='png', dpi=300, bbox_inches='tight')
+    plt.close()
+
 def generate_and_save_data(trunk_count, filename):
     # np.random.seed(42)  # Setting a seed for reproducibility
     # Set parameters
@@ -173,6 +186,15 @@ def generate_and_save_data(trunk_count, filename):
         save_image('./Data/Healthy/healthy{}.png'.format(i), x_trunk_L1[i], y_trunk_L1[i], x_trunk_L2[i], y_trunk_L2[i],
                 x_trunk_L3[i], y_trunk_L3[i],
                 x_trunk_L4[i], y_trunk_L4[i],
+                # ,x_trunk_L5[i], y_trunk_L5[i], 
+                np.zeros((1, N_angle)), np.zeros((1, N_angle)), layer1, layer2, layer3,layer4, cavity_colour)
+        
+        save_image_output('./Dataset/Defect/defect{}.png'.format(i), x_trunk_L1[i], y_trunk_L1[i], x_trunk_L2[i], y_trunk_L2[i],
+                x_trunk_L3[i], y_trunk_L3[i], 
+                # ,x_trunk_L5[i], y_trunk_L5[i], 
+                x_Bcavity[i], y_Bcavity[i], layer1, layer2, layer3, layer4, cavity_colour)
+        save_image_output('./Dataset/Healthy/healthy{}.png'.format(i), x_trunk_L1[i], y_trunk_L1[i], x_trunk_L2[i], y_trunk_L2[i],
+                x_trunk_L3[i], y_trunk_L3[i],
                 # ,x_trunk_L5[i], y_trunk_L5[i], 
                 np.zeros((1, N_angle)), np.zeros((1, N_angle)), layer1, layer2, layer3,layer4, cavity_colour)
 
