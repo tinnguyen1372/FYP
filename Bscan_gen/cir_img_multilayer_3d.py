@@ -30,7 +30,7 @@ class Cir_Adaptor():
         self.start = args.start
         self.prefix = args.prefix
         self.count = args.count
-        self.height = round(random.uniform(0.15, 0.2),2)
+        self.height = round(random.uniform(0.10, 0.15),2)
         self.generated_healthy_base = os.getcwd() + '/Data/Healthy/healthy'
         self.generated_cavity_base = os.getcwd() + '/Data/Defect/defect'
 
@@ -101,7 +101,7 @@ class Cir_Adaptor():
         resolution = 0.002
         height = self.height / resolution
         res = diameter / 0.002
-        time_window = 3e-8
+        time_window = 25e-8
         pml_cells = 20
         pml = resolution * pml_cells
         x_gap = 0.02
@@ -111,9 +111,9 @@ class Cir_Adaptor():
         src_to_trunk = 0.1
         sharp_domain = diameter , self.height,  diameter + src_to_trunk
         domain = [
-            sharp_domain[0] + pml * 2 + x_gap ,
-            sharp_domain[1] + pml * 2 + y_gap,
-            sharp_domain[2] + pml * 2 + z_gap + src_to_pml, 
+            sharp_domain[0] + pml + x_gap ,
+            sharp_domain[1] + pml + y_gap,
+            sharp_domain[2] + pml + z_gap + src_to_pml, 
         ]
         trunk_base = [
             pml + x_gap,
@@ -235,7 +235,7 @@ Geometry objects read
         resolution = 0.002
         height = self.height / resolution
         res = diameter / 0.002
-        time_window = 3e-8
+        time_window = 25e-8
         pml_cells = 20
         pml = resolution * pml_cells
         x_gap = 0.02
@@ -245,9 +245,9 @@ Geometry objects read
         src_to_trunk = 0.1
         sharp_domain = diameter , self.height,  diameter + src_to_trunk
         domain = [
-            sharp_domain[0] + pml * 2 + x_gap ,
-            sharp_domain[1] + pml * 2 + y_gap,
-            sharp_domain[2] + pml * 2 + z_gap + src_to_pml, 
+            sharp_domain[0] + pml + x_gap ,
+            sharp_domain[1] + pml + y_gap,
+            sharp_domain[2] + pml + z_gap + src_to_pml, 
         ]
         trunk_base = [
             pml + x_gap,

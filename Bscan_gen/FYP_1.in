@@ -2,9 +2,9 @@
 #title: Healthy TreeTrunk
 
 Configuration
-#domain: 0.644 0.270 0.764
+#domain: 0.604 0.180 0.724
 #dx_dy_dz: 0.002 0.002 0.002
-#time_window: 3e-08
+#time_window: 2.5e-07
 
 #pml_cells: 20 20 20 20 20 20
 
@@ -12,10 +12,10 @@ Configuration
 Source - Receiver - Waveform
 #python:
 from user_libs.antennas.GSSI import antenna_like_GSSI_1500
-antenna_like_GSSI_1500(0.282, 0.125, 0.060, resolution=0.002)
+antenna_like_GSSI_1500(0.282, 0.100, 0.060, resolution=0.002)
 #end_python:
 Geometry objects read
 
-geometry_objects_read: 0.060 0.060 0.160 FYP_healthy.h5 FYP_materials.txt
+#geometry_objects_read: 0.060 0.060 0.160 FYP_healthy.h5 FYP_materials.txt
 
     
