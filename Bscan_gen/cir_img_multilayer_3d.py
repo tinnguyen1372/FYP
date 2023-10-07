@@ -101,7 +101,7 @@ class Cir_Adaptor():
         resolution = 0.002
         height = self.height / resolution
         res = diameter / 0.002
-        time_window = 25e-8
+        time_window = 2.5e-8
         pml_cells = 20
         pml = resolution * pml_cells
         x_gap = 0.02
@@ -235,7 +235,7 @@ Geometry objects read
         resolution = 0.002
         height = self.height / resolution
         res = diameter / 0.002
-        time_window = 25e-8
+        time_window = 2.5e-8
         pml_cells = 20
         pml = resolution * pml_cells
         x_gap = 0.02
