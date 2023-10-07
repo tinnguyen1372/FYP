@@ -62,7 +62,7 @@ if __name__ == "__main__":
     output_healthy_directory = "./Dataset/Healthy/"
     output_defect_directory = "./Dataset/Defect/"
     N_trunk = input("Number of trunk: ")
-    for i in range(int(N_trunk)):
+    for i in range(1,int(N_trunk)):
         print("Processing Image Trunk number {}".format(i))
         healthy_format = "healthy{}.png".format(i)
         defect_format = "defect{}.png".format(i)

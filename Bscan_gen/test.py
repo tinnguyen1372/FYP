@@ -1,20 +1,36 @@
+from cirultils import preprocess_multilayers_3d
+
+# image_path = 'test.png'
+# preprocess_multilayers_3d(image_path, 200, 'test_', 1, angle = 0)
+
+import h5py
 import numpy as np
+import matplotlib.pyplot as plt
 
-# Load the NPZ file
-data = np.load('SL_trunk.npz')
+# Open the HDF5 file containing 3D data
+file_path = 'FYP_healthy.h5'
+f = h5py.File(file_path, 'r')
 
-# Print the keys of the data in the NPZ file
-print("Keys in the NPZ file:", data.keys())
+# Access the 3D data from the HDF5 file
+dset = f['data']
 
-# Access and print each array in the NPZ file
-for key in data.keys():
-    print(f"\nData for key '{key}':")
-    try:
-        print(data[key])
-    except:
-        pass
+# Generate the image
+fig, ax = plt.subplots(1, 3,figsize=(10, 5))
+ax[0].imshow(np.transpose(dset[:,125,:], axes=(1, 0)), cmap='viridis')
+ax[0].invert_yaxis()
+ax[0].set_title('Domain View')
 
-import cirultils as cu
-# for i in range(36):
-i=0
-cu.preprocess_multilayers("./Data/Defect/defect1"+ ".png", 200,"test_", i, angle = i*int(360/36))
+# # Plot dset2 on the right subplot
+ax[1].imshow(np.transpose(dset[:,:,36], axes=(1, 0)), cmap='viridis')
+ax[1].invert_yaxis()
+ax[1].set_title('Trunk View')
+
+ax[2].imshow(np.transpose(dset[:,:,154], axes=(1, 0)), cmap='viridis')
+ax[2].invert_yaxis()
+ax[2].set_title('Antenna View')
+
+
+plt.show()
+# Close the HDF5 file
+f.close()
+

@@ -64,7 +64,7 @@ def generate_and_save_data(trunk_count, filename):
     # np.random.seed(42)  # Setting a seed for reproducibility
     # Set parameters
     Rmin_trunk = 0.15
-    Rmax_trunk = 0.40
+    Rmax_trunk = 0.30
     CenTrunk_X = 0
     CenTrunk_Y = 0
     N_angle = 360
