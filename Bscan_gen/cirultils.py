@@ -390,7 +390,7 @@ def preprocess_multilayers_3d(image_path, res, prefix, iteration, angle=0, z_lay
     layers = [arr_2d] * z_layers
 
     # Stack the 2D arrays along the Z dimension to create a 3D array
-    arr_3d = np.stack(layers, axis=2)
+    arr_3d = np.stack(layers, axis=1)
 
     # Add the angle to the file name
     base_filename = ""

@@ -45,7 +45,7 @@ class Cir_Adaptor():
     def run(self):
         for iteration in range(self.start, self.start + self.count):
             self.run_healthy(iteration)
-            self.run_cavity(iteration)
+            self.run_cavity(iteration)           
             source_file_healthy = self.prefix + "bscan_healthy.out"
             source_file_cavity = self.prefix + "bscan_cavity.out"
             destination_file_healthy = './Output/bscan/bscan_healthy_' + str(iteration) + '.out'
@@ -96,17 +96,17 @@ class Cir_Adaptor():
         # self.rcavity = self.data['R_center_Bcavity'][iteration] 
         # self.cx, self.cy, self.cz = (self.data['CenTrunk_X'],self.data['CenTrunk_Y'],0)
         self.input = './{}{}.in'.format(self.prefix, iteration)
-        src_to_rx = 0.1
+        src_to_rx = 0.005
         diameter =self.cradius * 2
         resolution = 0.002
         height = self.height / resolution
         res = diameter / 0.002
         time_window = 2.5e-8
-        pml_cells = 20
+        pml_cells = 25
         pml = resolution * pml_cells
         x_gap = 0.02
         y_gap = 0.02
-        z_gap = 0.02
+        z_gap = 0.05
         src_to_pml = 0.02
         src_to_trunk = 0.1
         sharp_domain = diameter , self.height,  diameter + src_to_trunk
@@ -118,9 +118,9 @@ class Cir_Adaptor():
         trunk_base = [
             pml + x_gap,
             pml + y_gap,
-            src_to_trunk + pml + src_to_pml, 
+            pml, 
         ]
-        src_position = [self.cradius + pml + x_gap - src_to_rx/2,self.height/2 + pml, pml + src_to_pml]
+        src_position = [self.cradius + pml + x_gap - src_to_rx/2,self.height/2 + pml, pml + src_to_trunk + diameter]
         # rx_position = [src_position[0] + src_to_rx, src_position[1], height/2]
         # antenna_like_GSSI_1500(0.125, 0.094, 0.100, resolution=0.002)
         with open('{}materials.txt'.format(self.prefix), "w") as file:
@@ -129,7 +129,7 @@ class Cir_Adaptor():
             file.write('#material: {} 0 1 0 sapwood\n'.format(eps_sapwood))
             file.write('#material: {} 0 1 0 heartwood\n'.format(eps_heartwood))
             # file.write('#material: {} 0 1 0 trunk\n'.format(eps_trunk))
-            file.write('#material: 1 0 1 0 cavity')
+            # file.write('#material: 1 0 1 0 cavity')
         logging.debug('_ iteration {} _'.format(iteration))
         for i in range(self.bscan_num):
             cu.preprocess_multilayers_3d(self.generated_healthy_base + str(iteration) + ".png", res,self.prefix, iteration, angle = i*int(360/self.bscan_num),z_layers=int(height))
@@ -230,17 +230,17 @@ Geometry objects read
         # self.rcavity = self.data['R_center_Bcavity'][iteration] 
         # self.cx, self.cy, self.cz = (self.data['CenTrunk_X'],self.data['CenTrunk_Y'],0)
         self.input = './{}{}.in'.format(self.prefix, iteration)
-        src_to_rx = 0.1
+        src_to_rx = 0.005
         diameter =self.cradius * 2
         resolution = 0.002
         height = self.height / resolution
         res = diameter / 0.002
         time_window = 2.5e-8
-        pml_cells = 20
+        pml_cells = 25
         pml = resolution * pml_cells
         x_gap = 0.02
         y_gap = 0.02
-        z_gap = 0.02
+        z_gap = 0.05
         src_to_pml = 0.02
         src_to_trunk = 0.1
         sharp_domain = diameter , self.height,  diameter + src_to_trunk
@@ -252,9 +252,9 @@ Geometry objects read
         trunk_base = [
             pml + x_gap,
             pml + y_gap,
-            src_to_trunk + pml + src_to_pml, 
+            pml , 
         ]
-        src_position = [self.cradius + pml + x_gap - src_to_rx/2,self.height/2 + pml, pml + src_to_pml]
+        src_position = [self.cradius + pml + x_gap - src_to_rx/2,self.height/2 + pml, pml + src_to_trunk + diameter]
         with open('{}materials.txt'.format(self.prefix), "w") as file:
             # file.write('#material: {} 0 1 0 trunk\n'.format(eps_trunk))
             file.write('#material: {} 0 1 0 bark\n'.format(eps_bark))
